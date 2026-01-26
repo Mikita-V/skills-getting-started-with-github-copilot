@@ -35,6 +35,17 @@ class TestGetActivities:
         assert "michael@mergington.edu" in data["Chess Club"]["participants"]
         assert "daniel@mergington.edu" in data["Chess Club"]["participants"]
 
+    def test_get_activities_includes_manga_maniacs(self, client):
+        """Test that Manga Maniacs club is included"""
+        response = client.get("/activities")
+        data = response.json()
+        
+        assert "Manga Maniacs" in data
+        manga_maniacs = data["Manga Maniacs"]
+        assert manga_maniacs["schedule"] == "Tuesdays at 7pm"
+        assert manga_maniacs["max_participants"] == 15
+        assert "Japanese Manga" in manga_maniacs["description"]
+
 
 class TestSignup:
     """Tests for the POST /activities/{activity_name}/signup endpoint"""
